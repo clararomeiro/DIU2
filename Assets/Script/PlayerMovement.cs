@@ -33,6 +33,11 @@ public class PlayerMovement : MonoBehaviour
     private bool attack = false;
     private bool isCoffin = false;
 
+    [SerializeField]
+    private GameObject bullet;
+    [SerializeField]
+    private GameObject bulletPlace;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -74,6 +79,7 @@ public class PlayerMovement : MonoBehaviour
         {
             playeranim.Play("attack");
             attack = true;
+            Instantiate(bullet, bulletPlace.transform.position, this.gameObject.transform.rotation);
         }
         else
         {
