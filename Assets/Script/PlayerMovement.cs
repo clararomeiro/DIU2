@@ -19,24 +19,21 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private Animator playeranim;
 
-    [Header("Box")]
-    [SerializeField]
-    private GameObject box;
-    [SerializeField]
-    private Sprite coffin;
 
     private bool canJump;
 
     private Vector3 left;
     private Vector3 right;
 
-    private bool attack = false;
-    private bool isCoffin = false;
-
+    [Header("Bullet")]
     [SerializeField]
     private GameObject bullet;
     [SerializeField]
     private GameObject bulletPlace;
+
+    private bool canAttack;
+
+    private bool isLeft;
 
     // Start is called before the first frame update
     void Start()
@@ -44,6 +41,7 @@ public class PlayerMovement : MonoBehaviour
         right = transform.localScale;
         left = transform.localScale;
         left.x *= -1;
+        canAttack = true;
     }
 
     // Update is called once per frame
@@ -55,10 +53,12 @@ public class PlayerMovement : MonoBehaviour
         if(xdir < 0)
         {
             transform.localScale = left;
+            playeranim.SetBool("isLeft", true);
         }
         else
         {
             transform.localScale = right;
+            playeranim.SetBool("isLeft", false);
         }
 
         if (rb.velocity.x != 0)
@@ -75,22 +75,36 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = new Vector2(rb.velocity.x, jumpforce);
         }
 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && canAttack)
         {
-            playeranim.Play("attack");
-            attack = true;
+            if (playeranim.GetCurrentAnimatorStateInfo(0).IsTag("Left"))
+            {
+                playeranim.SetBool("isLeft", true);
+                playeranim.SetBool("attack", true);
+                transform.localScale = left;
+
+            }
+            else
+            {
+                playeranim.SetBool("isLeft", false);
+                playeranim.SetBool("attack", true);
+                transform.localScale = right;
+            }
             Instantiate(bullet, bulletPlace.transform.position, this.gameObject.transform.rotation);
         }
         else
         {
             playeranim.SetBool("attack", false);
-            attack = false;
         }
 
-        if (isCoffin)
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Enemy"))
         {
-            Application.Quit();
+            canAttack = false;
         }
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -112,10 +126,4 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    public void turnCoffin()
-    {
-        Debug.Log("in");
-
-        isCoffin = true;
-    }
 }

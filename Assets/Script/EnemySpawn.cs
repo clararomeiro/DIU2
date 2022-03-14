@@ -13,6 +13,7 @@ public class EnemySpawn : MonoBehaviour
     private int round;
     private float tempo;
     private float limit;
+    private float vel;
 
     // Start is called before the first frame update
     void Start()
@@ -20,6 +21,7 @@ public class EnemySpawn : MonoBehaviour
         round = 0;
         limit = 3f;
         tempo = 0;
+        vel = 2f;
     }
 
     // Update is called once per frame
@@ -34,9 +36,10 @@ public class EnemySpawn : MonoBehaviour
             Instantiate(enemy, spawnPositions[pos].transform.position, Quaternion.identity);
             round = round + 1;
 
-            if(round == 2 && limit > 0.1f)
+            if(round == 3 && limit > 0.4f)
             {
                 limit = limit - 0.1f;
+                vel = vel + 0.3f;
                 round = 0;
             }
 
@@ -45,5 +48,10 @@ public class EnemySpawn : MonoBehaviour
 
         Debug.Log(limit);
         
+    }
+
+    public float getVel()
+    {
+        return vel;
     }
 }

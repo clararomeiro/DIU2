@@ -9,11 +9,14 @@ public class Enemy : MonoBehaviour
 
     private Animator anim;
 
+    private EnemySpawn spawn;
+
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("Player");
-        anim = GetComponent<Animator>();   
+        anim = GetComponent<Animator>();
+        spawn = FindObjectOfType<EnemySpawn>();
 
     }
 
@@ -22,7 +25,7 @@ public class Enemy : MonoBehaviour
     {
         if(player != null)
         {
-            transform.position = Vector2.MoveTowards(transform.position, player.transform.position, 2f * Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, player.transform.position, spawn.getVel() * Time.deltaTime);
         }
     }
 
@@ -38,6 +41,7 @@ public class Enemy : MonoBehaviour
         {
             anim.Play("Attack");
             Destroy(collision.gameObject, 0.3f);
+            FindObjectOfType<GameOver>().gameOver();
         }
     }
 

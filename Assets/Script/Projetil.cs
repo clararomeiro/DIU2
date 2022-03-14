@@ -19,7 +19,15 @@ public class Projetil : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        playerDirection = Player.transform.localScale.x;
+        //playerDirection = Player.transform.localScale.x;
+        if (Player.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsTag("Left"))
+        {
+            playerDirection = -1;
+        }
+        else
+        {
+            playerDirection = 1;
+        }
 
     }
 
