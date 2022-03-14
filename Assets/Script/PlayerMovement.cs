@@ -93,18 +93,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnCollisionStay2D(Collision2D collision)
-    {
-        if (collision.collider.CompareTag("Box") && attack)
-        {
-            box.GetComponent<SpriteRenderer>().sprite = coffin;
-            box.transform.localScale = new Vector3(2, 2, 2);
-            box.GetComponent<BoxCollider2D>().size = new Vector2(1, 0.52f);
-            Invoke("turnCoffin", 1);
-        }
-
-    }
-
     private void OnCollisionEnter2D(Collision2D collision)
     {
 
@@ -112,6 +100,7 @@ public class PlayerMovement : MonoBehaviour
         {
             canJump = true;
         }
+
 
     }
 

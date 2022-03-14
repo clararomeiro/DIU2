@@ -8,11 +8,13 @@ TagManager:
   - Box
   - Bullet
   - Barrier
+  - DeathArea
+  - Enemy
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Enemy
   - Water
   - UI
   - 
