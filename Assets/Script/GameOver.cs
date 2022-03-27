@@ -28,7 +28,7 @@ public class GameOver : MonoBehaviour
 
     public void gameOver()
     {
-        Invoke("gameOverWait", 0.8f);
+        Invoke("gameOverWait", 0.2f);
     }
 
     public void gameOverWait()

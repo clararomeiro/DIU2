@@ -53,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
         brains = 0;
         immortalTime = 0;
         PlayerPrefs.SetInt("Score", 0);
+        PlayerPrefs.SetString("CanDie", "true");
     }
 
     // Update is called once per frame
@@ -63,7 +64,7 @@ public class PlayerMovement : MonoBehaviour
             PlayerPrefs.SetString("CanDie", "false");
             brains = brains - 3;
             capsule.SetActive(true);
-            StartCoroutine("immortalTiming");
+            StartCoroutine(immortalTiming());
         }
 
         xdir = Input.GetAxis("Horizontal");
