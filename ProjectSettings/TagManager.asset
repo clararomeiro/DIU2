@@ -10,6 +10,7 @@ TagManager:
   - Barrier
   - DeathArea
   - Enemy
+  - Brain
   layers:
   - Default
   - TransparentFX

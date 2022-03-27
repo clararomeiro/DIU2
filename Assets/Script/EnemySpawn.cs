@@ -46,8 +46,6 @@ public class EnemySpawn : MonoBehaviour
             tempo = 0;
         }
 
-        Debug.Log(limit);
-        
     }
 
     public float getVel()

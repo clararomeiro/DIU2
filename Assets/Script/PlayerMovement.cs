@@ -35,18 +35,37 @@ public class PlayerMovement : MonoBehaviour
 
     private bool isLeft;
 
+    private int brains;
+
+    private float immortalTime;
+
+    [SerializeField]
+    private GameObject capsule;
+
     // Start is called before the first frame update
     void Start()
     {
+        PlayerPrefs.SetInt("EnemyKilled", 0);
         right = transform.localScale;
         left = transform.localScale;
         left.x *= -1;
         canAttack = true;
+        brains = 0;
+        immortalTime = 0;
+        PlayerPrefs.SetInt("Score", 0);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.V) && brains > 2)
+        {
+            PlayerPrefs.SetString("CanDie", "false");
+            brains = brains - 3;
+            capsule.SetActive(true);
+            StartCoroutine("immortalTiming");
+        }
+
         xdir = Input.GetAxis("Horizontal");
         rb.velocity = new Vector2(xdir * vel, rb.velocity.y);
 
@@ -97,12 +116,16 @@ public class PlayerMovement : MonoBehaviour
             playeranim.SetBool("attack", false);
         }
 
+
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Enemy"))
+
+        if (collision.CompareTag("Brain"))
         {
-            canAttack = false;
+            brains = brains + 1;
+            PlayerPrefs.SetInt("Score", PlayerPrefs.GetInt("Score", 0) + 5);
+            Destroy(collision.gameObject);
         }
 
     }
@@ -124,6 +147,19 @@ public class PlayerMovement : MonoBehaviour
         {
             canJump = false;
         }
+    }
+
+    public int getBrains()
+    {
+        return brains;
+    }
+
+    IEnumerator immortalTiming()
+    {
+        yield return new WaitForSeconds(10f);
+
+        capsule.SetActive(false);
+        PlayerPrefs.SetString("CanDie", "true");
     }
 
 }
